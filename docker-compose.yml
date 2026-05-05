@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: movie-rating-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: movie_rating_db
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: movieuser
+      MYSQL_PASSWORD: moviepassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: ./movie-rating-backend
+    container_name: movie-rating-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/movie_rating_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=movieuser
+      - SPRING_DATASOURCE_PASSWORD=moviepassword
+    ports:
+      - "9090:9090"
+
+  frontend:
+    build: ./movie-rating-frontend
+    container_name: movie-rating-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  mysql_data:

@@ -1,0 +1,92 @@
+spring:
+  application:
+    name: movie-rating-backend
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/movierating?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+#    username: ${DB_USERNAME:root}
+    username: root
+#    password: ${DB_PASSWORD:password}
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+    show-sql: false
+  
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    validate-on-migrate: true
+  
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+  
+  security:
+    jwt:
+      secret: ${JWT_SECRET:your-jwt-secret-key-for-development-only-change-in-production}
+      expiration: 86400000 # 24 hours in milliseconds
+      refresh-expiration: 604800000 # 7 days in milliseconds
+
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+  
+  error:
+    include-message: always
+    include-binding-errors: always
+
+logging:
+  level:
+    com.movierating: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/application.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+  show-actuator: true
