@@ -81,7 +81,7 @@ public class Content {
     @Builder.Default
     private LocalDateTime updatedAt = LocalDateTime.now();
     
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "content_genres",
         joinColumns = @JoinColumn(name = "content_id"),
@@ -90,7 +90,7 @@ public class Content {
     @Builder.Default
     private Set<Genre> genres = new HashSet<>();
     
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "content_directors",
         joinColumns = @JoinColumn(name = "content_id"),
@@ -99,7 +99,7 @@ public class Content {
     @Builder.Default
     private Set<Person> directors = new HashSet<>();
     
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "content_cast",
         joinColumns = @JoinColumn(name = "content_id"),

@@ -1,17 +1,26 @@
 package com.movierating.service;
 
 import com.movierating.config.SecurityConfig;
+import com.movierating.security.JwtUtils;
+import com.movierating.security.UserDetailsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = SecurityConfig.class)
+@SpringBootTest(classes = {SecurityConfig.class})
 @ActiveProfiles("test")
 public class UserServicePasswordEncoderTest {
+
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
+
+    @MockBean
+    private JwtUtils jwtUtils;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

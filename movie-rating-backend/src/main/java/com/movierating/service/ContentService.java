@@ -2,7 +2,9 @@ package com.movierating.service;
 
 import com.movierating.model.Content;
 import com.movierating.model.ContentType;
+import com.movierating.model.Genre;
 import com.movierating.repository.ContentRepository;
+import com.movierating.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,9 @@ public class ContentService {
     @Autowired
     private ContentRepository contentRepository;
     
+    @Autowired
+    private GenreRepository genreRepository;
+    
     public Content createContent(Content content) {
         // Validate required fields
         if (content.getTitle() == null || content.getTitle().trim().isEmpty()) {
@@ -39,6 +44,19 @@ public class ContentService {
         content.setViewCount(0);
         content.setCreatedAt(LocalDateTime.now());
         content.setUpdatedAt(LocalDateTime.now());
+
+        // Resolve genres by name
+        if (content.getGenres() != null) {
+            java.util.Set<Genre> resolvedGenres = new java.util.HashSet<>();
+            for (Genre genre : content.getGenres()) {
+                if (genre.getName() != null) {
+                    Genre existingGenre = genreRepository.findByName(genre.getName())
+                            .orElseGet(() -> genreRepository.save(new Genre(genre.getName())));
+                    resolvedGenres.add(existingGenre);
+                }
+            }
+            content.setGenres(resolvedGenres);
+        }
         
         return contentRepository.save(content);
     }
