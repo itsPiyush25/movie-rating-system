@@ -167,6 +167,13 @@ class ApiService {
     return this.request(`/contents${queryParams}`);
   }
 
+  async createContent(contentData: Partial<Content>): Promise<Content> {
+    return this.request<Content>('/contents', {
+      method: 'POST',
+      body: JSON.stringify(contentData),
+    });
+  }
+
   async getContentById(id: number): Promise<Content> {
     return this.request(`/contents/${id}`);
   }

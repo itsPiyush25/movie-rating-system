@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Bell, User, Menu, X, LogOut } from 'lucide-react'
+import { Bell, User, Menu, X, LogOut, Plus } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import SearchBar from './SearchBar'
 
@@ -20,6 +20,7 @@ const Header = () => {
     { name: 'TV Shows', href: '/search?type=TV_SHOW' },
     { name: 'Top Rated', href: '/search?sort=rating' },
     { name: 'Watchlist', href: '/watchlist' },
+    ...(user ? [{ name: 'Add Content', href: '/add-content', icon: <Plus size={18} className="mr-1" /> }] : []),
   ]
 
   return (
@@ -50,8 +51,9 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors"
+                className="flex items-center text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors"
               >
+                {(item as any).icon}
                 {item.name}
               </Link>
             ))}
@@ -155,9 +157,10 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium py-2"
+                  className="flex items-center text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
+                  {(item as any).icon}
                   {item.name}
                 </Link>
               ))}

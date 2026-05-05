@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage'
 import WatchlistPage from './pages/WatchlistPage'
 import HistoryPage from './pages/HistoryPage'
 import StatsPage from './pages/StatsPage'
+import AddContentPage from './pages/AddContentPage'
 import { AuthProvider } from './contexts/AuthContext'
 
 const queryClient = new QueryClient({
@@ -40,6 +41,7 @@ function App() {
                 <Route path="history" element={<HistoryPage />} />
                 <Route path="stats" element={<StatsPage />} />
                 <Route path="profile" element={<ProfilePage />} />
+                <Route path="add-content" element={<AddContentPage />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
             </Routes>
