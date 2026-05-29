@@ -48,7 +48,7 @@ spring:
       refresh-expiration: 604800000 # 7 days in milliseconds
 
 server:
-  port: 9090
+  port: ${PORT:9090}
   servlet:
     context-path: /api
   

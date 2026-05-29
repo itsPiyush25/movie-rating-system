@@ -6,8 +6,10 @@ services:
     dockerContext: .
     dockerfilePath: ./Dockerfile
     envVars:
-      - key: SERVER_PORT
+      - key: PORT
         value: "9090"
+      - key: JAVA_OPTS
+        value: "-Xmx300m -Xms300m -XX:+UseContainerSupport"
       - key: SPRING_DATASOURCE_URL
         sync: false
       - key: SPRING_DATASOURCE_USERNAME
