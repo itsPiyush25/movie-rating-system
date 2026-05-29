@@ -3,11 +3,9 @@ spring:
     name: movie-rating-backend
   
   datasource:
-    url: jdbc:mysql://localhost:3306/movierating?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-#    username: ${DB_USERNAME:root}
-    username: root
-#    password: ${DB_PASSWORD:password}
-    password: admin
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/movierating?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:admin}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
